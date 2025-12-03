@@ -17,3 +17,22 @@ model User {
   status     String   @default("active")
   created_at DateTime @default(now())
 }
+
+model Country {
+  country_id Int      @id @default(autoincrement())
+  name       String   @unique
+  status     Boolean  @default(true)
+  cities     City[]
+  created_at DateTime @default(now())
+}
+
+model City {
+  city_id    Int      @id @default(autoincrement())
+  name       String
+  status     Boolean  @default(true)
+  country_id Int
+  country    Country  @relation(fields: [country_id], references: [country_id])
+  created_at DateTime @default(now())
+
+  @@unique([name, country_id])
+}
